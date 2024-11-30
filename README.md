@@ -178,4 +178,4 @@ The library includes built-in error handling and connection management:
 
 ## License
 
-ISC
+MIT
