@@ -1,21 +1,40 @@
 {
 	"name": "zen-ws",
 	"version": "1.0.0",
-	"main": "dist/index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "tsc"
+	"description": "WebSocket library",
+	"main": "./dist/cjs/index.js",
+	"module": "./dist/esm/index.js",
+	"types": "./dist/types/index.d.ts",
+	"exports": {
+		".": {
+			"require": "./dist/cjs/index.js",
+			"import": "./dist/esm/index.js",
+			"types": "./dist/types/index.d.ts"
+		}
 	},
-	"keywords": [],
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"scripts": {
+		"clean": "rm -rf dist",
+		"build": "npm run clean && npm run build:cjs && npm run build:esm",
+		"build:cjs": "tsc --project tsconfig.cjs.json",
+		"build:esm": "tsc --project tsconfig.esm.json",
+		"prepublishOnly": "npm run build"
+	},
+	"keywords": [
+		"websocket",
+		"ws"
+	],
 	"author": "",
 	"license": "ISC",
-	"description": "",
 	"dependencies": {
-		"typescript": "^5.7.2",
-		"typescript-eslint": "^8.16.0",
 		"ws": "^8.18.0"
 	},
 	"devDependencies": {
-		"@types/ws": "^8.5.13"
+		"@types/ws": "^8.5.13",
+		"typescript": "^5.7.2",
+		"typescript-eslint": "^8.16.0"
 	}
 }
