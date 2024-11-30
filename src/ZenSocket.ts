@@ -6,7 +6,7 @@ export interface ZenSocketOptions {
 	pingInterval?: number;
 }
 
-export default class ZenSocket {
+export class ZenSocket {
 	public onOpen: ((event: Event) => void) | null = null;
 	public onMessage: ((typeId: string, message: ZenMessage) => void) | null = null;
 	public onClose: ((event: CloseEvent) => void) | null = null;

@@ -11,7 +11,7 @@ interface ZenSocketServerOptions {
 	logger?: Logger;
 }
 
-export default class ZenSocketServer {
+export class ZenSocketServer {
 	public wss: WebSocketServer;
 
 	public onMessage: ((userId: string, typeId: string, message: ZenMessage) => void) | null = null;
