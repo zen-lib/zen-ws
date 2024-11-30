@@ -30,7 +30,8 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"ws": "^8.18.0"
+		"ws": "^8.18.0",
+		"zen-json-type": "^1.0.0"
 	},
 	"devDependencies": {
 		"@types/ws": "^8.5.13",

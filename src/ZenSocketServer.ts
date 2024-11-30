@@ -1,13 +1,6 @@
-import {
-	WebSocket,
-	WebSocketServer,
-	MessageEvent,
-	CloseEvent,
-	ErrorEvent,
-	ServerOptions,
-} from 'ws';
+import { WebSocket, WebSocketServer, MessageEvent, CloseEvent, ErrorEvent, ServerOptions } from 'ws';
 import { parse } from 'url';
-import { JSONValue, Logger, ZenEnvelope, ZenPing, ZenPong } from './model';
+import { Logger, ZenEnvelope, ZenMessage, ZenPing, ZenPong } from './model';
 import http from 'http';
 
 interface ZenSocketServerOptions {
@@ -21,9 +14,7 @@ interface ZenSocketServerOptions {
 export default class ZenSocketServer {
 	public wss: WebSocketServer;
 
-	public onMessage:
-		| ((userId: string, typeId: string, message: JSONValue) => void)
-		| null = null;
+	public onMessage: ((userId: string, typeId: string, message: ZenMessage) => void) | null = null;
 	public onClose: ((event: CloseEvent) => void) | null = null;
 	public onError: ((event: ErrorEvent) => void) | null = null;
 
@@ -32,13 +23,7 @@ export default class ZenSocketServer {
 	private authenticateUser: (token: string) => Promise<string | null>;
 	private logger?: Logger;
 
-	constructor({
-		authenticateUser,
-		httpServer,
-		path,
-		wssOptions,
-		logger,
-	}: ZenSocketServerOptions) {
+	constructor({ authenticateUser, httpServer, path, wssOptions, logger }: ZenSocketServerOptions) {
 		this.wss = new WebSocketServer(wssOptions || { noServer: true });
 		this.authenticateUser = authenticateUser;
 		this.logger = logger;
@@ -54,11 +39,7 @@ export default class ZenSocketServer {
 		});
 	}
 
-	public sendMessage = (
-		userId: string,
-		typeId: string,
-		message: JSONValue
-	) => {
+	public sendMessage = (userId: string, typeId: string, message: ZenMessage) => {
 		const userConnections = this.userIdToWs.get(userId);
 		if (!userConnections || userConnections.size === 0) {
 			return false;
@@ -71,10 +52,7 @@ export default class ZenSocketServer {
 		}
 	};
 
-	private handleNewConnection = async (
-		ws: WebSocket,
-		request: any
-	): Promise<void> => {
+	private handleNewConnection = async (ws: WebSocket, request: any): Promise<void> => {
 		try {
 			const { query } = parse(request.url!, true);
 			const token = query.auth as string;

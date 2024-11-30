@@ -1,18 +1,17 @@
-export type JSONPrimitive = string | number | boolean | null;
-export type JSONObject = { [key: string]: JSONValue };
-export type JSONArray = JSONValue[];
-export type JSONValue = JSONPrimitive | JSONObject | JSONArray;
+import { JSONObject } from 'zen-json-type';
+
+export type ZenMessage = JSONObject;
 
 export interface ZenEnvelope {
 	type: string;
-	message: JSONValue;
+	message: ZenMessage;
 }
 
-export interface ZenPing extends JSONObject {
+export interface ZenPing extends ZenMessage {
 	payload: string;
 }
 
-export interface ZenPong extends JSONObject {
+export interface ZenPong extends ZenMessage {
 	payload: string;
 }
 

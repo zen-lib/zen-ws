@@ -1,4 +1,4 @@
-import { JSONValue, ZenPong } from './model';
+import { ZenMessage, ZenPong } from './model';
 
 export interface ZenSocketOptions {
 	url: string;
@@ -8,8 +8,7 @@ export interface ZenSocketOptions {
 
 export default class ZenSocket {
 	public onOpen: ((event: Event) => void) | null = null;
-	public onMessage: ((typeId: string, message: JSONValue) => void) | null =
-		null;
+	public onMessage: ((typeId: string, message: ZenMessage) => void) | null = null;
 	public onClose: ((event: CloseEvent) => void) | null = null;
 	public onError: ((event: Event) => void) | null = null;
 
@@ -31,7 +30,7 @@ export default class ZenSocket {
 		this.startPingInterval();
 	}
 
-	public send(typeId: string, message: JSONValue) {
+	public send(typeId: string, message: ZenMessage) {
 		this.ws.send(JSON.stringify({ type: typeId, message }));
 	}
 
@@ -44,7 +43,7 @@ export default class ZenSocket {
 			const messageStr = event.data.toString();
 			const parsedMessage = JSON.parse(messageStr) as {
 				type: string;
-				message: JSONValue;
+				message: ZenMessage;
 			};
 
 			if (!parsedMessage.type || typeof parsedMessage.type !== 'string') {
@@ -85,9 +84,7 @@ export default class ZenSocket {
 	private sendPing = () => {
 		try {
 			if (this.currentPingPayload !== null) {
-				console.error(
-					'Previous ping not responded to - closing connection'
-				);
+				console.error('Previous ping not responded to - closing connection');
 				this.ws.close(1000, 'Ping timeout');
 				return;
 			}
