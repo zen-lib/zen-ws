@@ -1,9 +1,10 @@
 {
 	"compilerOptions": {
-		"target": "es2016",
-		"module": "commonjs",
+		"target": "ESNext",
+		"module": "ESNext",
 		"declaration": true,
 		"declarationMap": true,
+		"declarationDir": "./dist/types",
 		"sourceMap": true,
 		"strict": true,
 		"esModuleInterop": true,

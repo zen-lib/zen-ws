@@ -2,14 +2,21 @@
 	"name": "zen-ws",
 	"version": "1.0.2",
 	"description": "WebSocket library",
+	"type": "module",
 	"main": "./dist/cjs/index.js",
 	"module": "./dist/esm/index.js",
 	"types": "./dist/types/index.d.ts",
 	"exports": {
 		".": {
-			"require": "./dist/cjs/index.js",
-			"import": "./dist/esm/index.js",
-			"types": "./dist/types/index.d.ts"
+			"types": "./dist/types/index.d.ts",
+			"import": {
+				"types": "./dist/types/index.d.ts",
+				"default": "./dist/esm/index.js"
+			},
+			"require": {
+				"types": "./dist/types/index.d.ts",
+				"default": "./dist/cjs/index.js"
+			}
 		}
 	},
 	"files": [
@@ -18,10 +25,9 @@
 	],
 	"scripts": {
 		"clean": "rm -rf dist",
-		"build": "npm run clean && npm run build:cjs && npm run build:esm",
-		"build:cjs": "tsc --project tsconfig.cjs.json",
-		"build:esm": "tsc --project tsconfig.esm.json",
-		"prepublishOnly": "npm run build"
+		"build": "npm run clean && npm run bundle && npm run build:types",
+		"bundle": "node esbuild.config.js",
+		"build:types": "tsc --emitDeclarationOnly"
 	},
 	"keywords": [
 		"websocket",
@@ -30,6 +36,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"esbuild": "^0.24.2",
 		"ws": "^8.18.0",
 		"zen-json-type": "^1.0.0"
 	},
