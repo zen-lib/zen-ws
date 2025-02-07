@@ -1,4 +1,5 @@
 import { ZenMessage, ZenPong } from './model';
+export * from './model';
 
 export interface ZenSocketOptions {
 	url: string;

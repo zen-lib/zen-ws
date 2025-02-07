@@ -2,6 +2,7 @@ import { WebSocket, WebSocketServer, MessageEvent, CloseEvent, ErrorEvent, Serve
 import { parse } from 'url';
 import { Logger, ZenEnvelope, ZenMessage, ZenPing, ZenPong } from './model';
 import http from 'http';
+export * from './model';
 
 interface ZenSocketServerOptions {
 	path: string;

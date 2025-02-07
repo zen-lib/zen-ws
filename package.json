@@ -3,20 +3,19 @@
 	"version": "1.0.2",
 	"description": "WebSocket library",
 	"type": "module",
-	"main": "./dist/cjs/index.js",
-	"module": "./dist/esm/index.js",
-	"types": "./dist/types/index.d.ts",
+	"main": "./dist/server/ZenSocketServer.cjs",
+	"module": "./dist/server/ZenSocketServer.js",
+	"types": "./dist/server/ZenSocketServer.d.ts",
 	"exports": {
-		".": {
-			"types": "./dist/types/index.d.ts",
-			"import": {
-				"types": "./dist/types/index.d.ts",
-				"default": "./dist/esm/index.js"
-			},
-			"require": {
-				"types": "./dist/types/index.d.ts",
-				"default": "./dist/cjs/index.js"
-			}
+		"./client": {
+			"types": "./dist/client/ZenSocket.d.ts",
+			"import": "./dist/client/ZenSocket.js",
+			"require": "./dist/client/ZenSocket.cjs"
+		},
+		"./server": {
+			"types": "./dist/server/ZenSocketServer.d.ts",
+			"import": "./dist/server/ZenSocketServer.js",
+			"require": "./dist/server/ZenSocketServer.cjs"
 		}
 	},
 	"files": [
@@ -25,9 +24,10 @@
 	],
 	"scripts": {
 		"clean": "rm -rf dist",
-		"build": "npm run clean && npm run bundle && npm run build:types",
+		"build": "rm -rf dist && npm run bundle && npm run types:client && npm run types:server",
 		"bundle": "node esbuild.config.js",
-		"build:types": "tsc --emitDeclarationOnly"
+		"types:client": "tsc --emitDeclarationOnly --project tsconfig.client.json",
+		"types:server": "tsc --emitDeclarationOnly --project tsconfig.server.json"
 	},
 	"keywords": [
 		"websocket",

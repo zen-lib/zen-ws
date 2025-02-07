@@ -6,10 +6,7 @@ const pkg = require('./package.json');
 
 /** @type {import('esbuild').BuildOptions} */
 const baseConfig = {
-	entryPoints: ['src/index.ts'],
 	bundle: true,
-	platform: 'node',
-	outdir: 'dist',
 	external: [
 		// Get all dependencies from package.json
 		...Object.keys(pkg.dependencies || {}),
@@ -18,18 +15,27 @@ const baseConfig = {
 	],
 };
 
-// Build both ESM and CJS versions
 Promise.all([
-	// ESM build
 	build({
 		...baseConfig,
+		entryPoints: ['src/ZenSocket.ts'],
+		platform: 'browser',
 		format: 'esm',
-		outdir: 'dist/esm',
+		outdir: 'dist/client',
 	}),
-	// CommonJS build
 	build({
 		...baseConfig,
+		entryPoints: ['src/ZenSocket.ts'],
+		platform: 'browser',
 		format: 'cjs',
-		outdir: 'dist/cjs',
+		outdir: 'dist/client',
+		outExtension: { '.js': '.cjs' },
+	}),
+	build({
+		...baseConfig,
+		entryPoints: ['src/ZenSocketServer.ts'],
+		platform: 'node',
+		format: 'esm',
+		outdir: 'dist/server',
 	}),
 ]).catch(() => process.exit(1));

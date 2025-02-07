@@ -1,0 +1,7 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"declarationDir": "./dist/client"
+	},
+	"include": ["src/ZenSocket.ts", "src/model.ts"]
+}
