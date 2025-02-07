@@ -1,12 +1,17 @@
 {
 	"name": "zen-ws",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"description": "WebSocket library",
 	"type": "module",
 	"main": "./dist/server/ZenSocketServer.cjs",
 	"module": "./dist/server/ZenSocketServer.js",
 	"types": "./dist/server/ZenSocketServer.d.ts",
 	"exports": {
+		".": {
+			"types": "./dist/server/ZenSocketServer.d.ts",
+			"import": "./dist/server/ZenSocketServer.js",
+			"require": "./dist/server/ZenSocketServer.cjs"
+		},
 		"./client": {
 			"types": "./dist/client/ZenSocket.d.ts",
 			"import": "./dist/client/ZenSocket.js",
@@ -18,12 +23,21 @@
 			"require": "./dist/server/ZenSocketServer.cjs"
 		}
 	},
+	"typesVersions": {
+		"*": {
+			"client": [
+				"./dist/client/ZenSocket.d.ts"
+			],
+			"server": [
+				"./dist/server/ZenSocketServer.d.ts"
+			]
+		}
+	},
 	"files": [
 		"dist",
 		"README.md"
 	],
 	"scripts": {
-		"clean": "rm -rf dist",
 		"build": "rm -rf dist && npm run bundle && npm run types:client && npm run types:server",
 		"bundle": "node esbuild.config.js",
 		"types:client": "tsc --emitDeclarationOnly --project tsconfig.client.json",

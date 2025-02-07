@@ -16,6 +16,7 @@ const baseConfig = {
 };
 
 Promise.all([
+	// Client ESM
 	build({
 		...baseConfig,
 		entryPoints: ['src/ZenSocket.ts'],
@@ -23,6 +24,7 @@ Promise.all([
 		format: 'esm',
 		outdir: 'dist/client',
 	}),
+	// Client CJS
 	build({
 		...baseConfig,
 		entryPoints: ['src/ZenSocket.ts'],
@@ -31,11 +33,21 @@ Promise.all([
 		outdir: 'dist/client',
 		outExtension: { '.js': '.cjs' },
 	}),
+	// Server ESM
 	build({
 		...baseConfig,
 		entryPoints: ['src/ZenSocketServer.ts'],
 		platform: 'node',
 		format: 'esm',
 		outdir: 'dist/server',
+	}),
+	// Server CJS
+	build({
+		...baseConfig,
+		entryPoints: ['src/ZenSocketServer.ts'],
+		platform: 'node',
+		format: 'cjs',
+		outdir: 'dist/server',
+		outExtension: { '.js': '.cjs' },
 	}),
 ]).catch(() => process.exit(1));
